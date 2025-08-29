@@ -21,8 +21,10 @@ export default function useMutation(method, resource, tagsToInvalidate) {
         body: JSON.stringify(body),
       });
       setData(result);
-      invalidateTags(tagsToInvalidate);
-    } catch (e) {
+    invalidateTags(
+        Array.isArray(tagsToInvalidate) ? tagsToInvalidate : [tagsToInvalidate]
+      );
+        } catch (e) {
       console.error(e);
       setError(e.message);
     } finally {
@@ -30,5 +32,5 @@ export default function useMutation(method, resource, tagsToInvalidate) {
     }
   };
 
-  return { mutate, data, loading, error };
+  return { mutate, data, loading, setLoading, error };
 }
